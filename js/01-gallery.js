@@ -1,18 +1,18 @@
 import { galleryItems } from './gallery-items.js';
 
-// console.log(galleryItems);
+console.log(galleryItems);
+
 
 // =================== search link div-gallery ========================
 
-const galleryContainer = document.querySelector('div.gallery');
+const galleryContainer = document.querySelector("div.gallery");
+// galleryContainer.addEventListener('click', onClickMarcup);
 
 // ===================function add div/a/img/-card=====================
 
-const galleryItemsMarkup = createGalleryItemsMarkup(galleryItems);
+galleryContainer.insertAdjacentHTML("beforeend", createGalleryItemsMarkup());
 
-galleryContainer.insertAdjacentHTML("beforeend", galleryItemsMarkup);
-
-
+// ================= create ele gellery ===============================
 function createGalleryItemsMarkup(item) {
   return galleryItems
     .map(({ preview, original, description }) => {
@@ -28,6 +28,40 @@ function createGalleryItemsMarkup(item) {
 </div>`;
     })
     .join("");
+}
+
+galleryContainer.addEventListener("click", openCardGalleryClick);
+
+const modal = basicLightbox.create(`<img src="${evt.target.dataset.source}">`);
+
+function openCardGalleryClick(evt) {
+  evt.preventDefault();
+  const imgCard = evt.target.classList.contains("gallery__image");
+  if (!evt.target.classList.contains("gallery__image")) {
+    return;
+  }
+// ================== open/close-lightbox ==============================
+  const modal = basicLightbox.create(
+    `<img src="${evt.target.dataset.source}">`,
+    {
+      onShow: (modal) => {
+        document.addEventListener("keydown", onEscapeButton);
+      },
+
+      onClose: (modal) => {
+        document.removeEventListener("keydown", onEscapeButton);
+      },
+    }
+  );
+
+  modal.show();
+// ================= function-key-checks-escape=========================
+    
+  function onEscapeButton(evt) {
+    if (evt.key === "Escape") {
+      modal.close();
+    }
+  }
 }
 
 // ======================  2v  ========================================
@@ -47,4 +81,3 @@ function createGalleryItemsMarkup(item) {
 //     img.alt = description;
 //     a.append(img);
 // });
-
