@@ -6,12 +6,13 @@ console.log(galleryItems);
 // =================== search link div-gallery ========================
 
 const galleryContainer = document.querySelector("div.gallery");
-// galleryContainer.addEventListener('click', onClickMarcup);
-
 // ===================function add div/a/img/-card=====================
 
-galleryContainer.insertAdjacentHTML("beforeend", createGalleryItemsMarkup());
-
+galleryContainer.insertAdjacentHTML(
+  "beforeend",
+  createGalleryItemsMarkup(galleryItems)
+);
+galleryContainer.addEventListener("click", openCardGalleryClick);
 // ================= create ele gellery ===============================
 function createGalleryItemsMarkup(item) {
   return galleryItems
@@ -29,10 +30,6 @@ function createGalleryItemsMarkup(item) {
     })
     .join("");
 }
-
-galleryContainer.addEventListener("click", openCardGalleryClick);
-
-const modal = basicLightbox.create(`<img src="${evt.target.dataset.source}">`);
 
 function openCardGalleryClick(evt) {
   evt.preventDefault();
